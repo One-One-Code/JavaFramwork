@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!-- 它们都是外部化，可替代的属性。可以配置在一个典型的Java 属性文件中，或者通过
+    properties 元素的子元素进行配置 -->
+    <properties resource="jdbc.properties"></properties>
+    <!-- 别名是一个较短的Java 类型的名称。用来设置别名 -->
+    <typeAliases>
+        <!-- 为指定的包下所有类设置别名，别名默认为类名 -->
+        <package name="cn.sxt.vo"/>
+        <!-- 为指定的类型设置别名
+        <typeAlias type="cn.sxt.vo.User" alias="User"/>
+        -->
+    </typeAliases>
+    <!-- MyBatis 能够配置多套运行环境，这有助于将您的SQL 映射到多个数据库上。例如，在您的
+    开发、测试、生产环境中，您可能有不同的配置。
+    default指向默认使用的环境
+    -->
+    <environments default="development">
+        <environment id="development">
+            <!--
+            JDBC – 这个配置直接使用JDBC 的提交和回滚功能。它依赖于从数据源获得连接来管理
+            事务的生命周期。
+            • MANAGED – 这个配置基本上什么都不做。它从不提交或者回滚一个连接的事务。而是让
+            容器（例如：Spring 或者J2EE 应用服务器）来管理事务的生命周期。
+            -->
+            <transactionManager type="JDBC"/>
+            <!--
+            UNPOOLED – 这个类型的数据源实现只是在每次需要的时候简单地打开和关闭连接。
+            POOLED – 这个数据源的实现缓存了JDBC 连接对象，用于避免每次创建新的数据库连接时都初始
+            化和进行认证，加快程序响应。并发WEB 应用通常通过这种做法来获得快速响应。
+            JNDI – 这个数据源的配置是为了准备与像Spring 或应用服务器能够在外部或者内部配置数据
+            源的容器一起使用，然后在JNDI 上下文中引用它。
+            -->
+            <dataSource type="POOLED">
+                <property name="driver" value="${driver}"/>
+                <property name="url" value="${url}"/>
+                <property name="username" value="${username}"/>
+                <property name="password" value="${password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <!-- sql语句的映射文件配置 -->
+        <mapper resource="mapper/UserMapper.xml"/>
+    </mappers>
+</configuration>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="userMapper">
+    <select id="findUserById" resultType="repository.po.UserInfo">
+        select * from info_user where userid=#{userId}
+    </select>
+    <insert id="insertUser" parameterType="repository.po.UserInfo">
+        insert into info_user(username,password,lastlogintime) values(#{userName},#{password},now())
+    </insert>
+    <insert id ="insertUserBatch" parameterType="java.util.List" >
+        insert into info_user(username,password,lastlogintime)
+        values
+        <foreach collection ="list" item="user" index= "index" separator =",">
+            (
+            #{user.userName}, #{user.password},now()
+            )
+        </foreach >
+    </insert >
+</mapper>
